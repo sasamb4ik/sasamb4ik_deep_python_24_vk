@@ -11,9 +11,10 @@ class SomeModel:
 
     def predict(self, message: str) -> float:
         '''
-        message: str -> Поданная на вход строка, состоящая только из букв Unicode формата
-        Функция возвращает отношение гласных букв в строке message к длине строки message
-        Спорную букву Y за гласную считать не будем (это как Й в русском языке, она не явл-ся гласной).
+        message: Cтрока, состоящая только из букв Unicode формата
+        Ф-я возвращает отношение гласных букв в строке message к длине message
+        Букву Y за гласную считать не будем (это как Й в русском языке,
+        она не явл-ся гласной).
         '''
 
         if not message:
@@ -38,6 +39,6 @@ def predict_message_mood(
 
     if value < bad_thresholds:
         return "неуд"
-    elif value > good_thresholds:
+    if value > good_thresholds:
         return "отл"
     return "норм"
