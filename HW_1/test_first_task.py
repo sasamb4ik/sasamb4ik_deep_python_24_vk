@@ -1,6 +1,7 @@
 import unittest
 from first_task import *
 
+
 class TestFirstTask(unittest.TestCase):
 
     def setUp(self):
@@ -24,7 +25,8 @@ class TestFirstTask(unittest.TestCase):
     def test_predict(self):
         self._assert_raises_message("", self.empty_str_msg)
         self._assert_raises_message("Hello123", self.invalid_format_msg)
-        self._assert_raises_message("Hello,mynameisgleb", self.invalid_format_msg)
+        self._assert_raises_message("Hello,mynameisgleb",
+                                    self.invalid_format_msg)
         self._assert_raises_message("    ", self.invalid_format_msg)
         self.assertAlmostEqual(self.model.predict("aeiou"), 1.0)
         self.assertAlmostEqual(self.model.predict("HeLLo"), 0.4)

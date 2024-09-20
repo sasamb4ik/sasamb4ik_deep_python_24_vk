@@ -20,7 +20,8 @@ class SomeModel:
             raise ValueError("Вы передали пустую строку.")
 
         if not all(char.isalpha() for char in message):
-            raise ValueError("Неверный входной формат строки. Строка должна состоять только из букв Unicode формата.")
+            raise ValueError(
+                "Неверный входной формат строки. Строка должна состоять только из букв Unicode формата.")
 
         return round(self.count_vowels(message) / len(message), 3)
 
