@@ -7,7 +7,10 @@ class TestFirstTask(unittest.TestCase):
     def setUp(self):
         self.model = SomeModel()
         self.empty_str_msg = "Вы передали пустую строку."
-        self.invalid_format_msg = "Неверный входной формат строки. Строка должна состоять только из букв Unicode формата."
+        self.invalid_format_msg = (
+            "Неверный входной формат строки. "
+            "Строка должна состоять только из букв Unicode формата."
+        )
 
     def test_count_vowels(self):
         self.assertEqual(self.model.count_vowels("hello"), 2)
@@ -25,8 +28,10 @@ class TestFirstTask(unittest.TestCase):
     def test_predict(self):
         self._assert_raises_message("", self.empty_str_msg)
         self._assert_raises_message("Hello123", self.invalid_format_msg)
-        self._assert_raises_message("Hello,mynameisgleb",
-                                    self.invalid_format_msg)
+        self._assert_raises_message(
+            "Hello,mynameisgleb",
+            self.invalid_format_msg
+        )
         self._assert_raises_message("    ", self.invalid_format_msg)
         self.assertAlmostEqual(self.model.predict("aeiou"), 1.0)
         self.assertAlmostEqual(self.model.predict("HeLLo"), 0.4)

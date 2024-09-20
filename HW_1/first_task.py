@@ -21,7 +21,9 @@ class SomeModel:
 
         if not all(char.isalpha() for char in message):
             raise ValueError(
-                "Неверный входной формат строки. Строка должна состоять только из букв Unicode формата.")
+                "Неверный входной формат строки. "
+                "Строка должна состоять только из букв Unicode формата."
+            )
 
         return round(self.count_vowels(message) / len(message), 3)
 
@@ -39,6 +41,3 @@ def predict_message_mood(
     elif value > good_thresholds:
         return "отл"
     return "норм"
-
-
-print(SomeModel().predict("mimmughffrf"))
