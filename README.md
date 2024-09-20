@@ -1,1 +1,1 @@
-# sasamb4ik_deep_python_24_vk
+# Репозиторий для сдачи домашек по курсу Deep Python от VK Education 
