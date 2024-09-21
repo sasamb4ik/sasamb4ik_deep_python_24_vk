@@ -8,8 +8,8 @@ class TestSecondTask(unittest.TestCase):
 
     @patch(
         'builtins.open', new_callable=unittest.mock.mock_open,
-        read_data='This is a mocked line.\n' \
-                  'Gleb loves big data.\n' \
+        read_data='This is a mocked line.\n'
+                  'Gleb loves big data.\n'
                   'Another line with data.\n'
     )
     def test_basics_and_read_file(self, mocked_open: patch):
@@ -21,7 +21,7 @@ class TestSecondTask(unittest.TestCase):
         with patch(
                 'builtins.open', new_callable=unittest.mock.mock_open,
                 read_data=''
-                ):
+        ):
             result = list(search_file_generator('fake_path', ['data'], []))
             self.assertEqual(result, [])
 
@@ -29,14 +29,15 @@ class TestSecondTask(unittest.TestCase):
         with patch(
                 'builtins.open', new_callable=unittest.mock.mock_open,
                 read_data='This line has no keywords.\nAnother irrelevant line.'
-                ):
+        ):
             result = list(search_file_generator('fake_path', ['keyword'], []))
             self.assertEqual(result, [])
 
     def test_special_characters(self):
         with patch(
                 'builtins.open', new_callable=unittest.mock.mock_open,
-                read_data='Line with special character %percent.\nLine without keyword.\n'
-                ):
+                read_data='Line with special character %percent.\n'
+                          'Line without keyword.\n'
+        ):
             result = list(search_file_generator('fake_path', ['percent'], []))
             self.assertEqual(result, ['Line with special character %percent.'])
