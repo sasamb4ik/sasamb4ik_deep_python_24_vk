@@ -1,4 +1,4 @@
-import string
+from imports import string
 
 
 def remove_punctuation(given_string: str) -> str:

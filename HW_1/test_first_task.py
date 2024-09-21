@@ -1,5 +1,4 @@
-import unittest
-from first_task import SomeModel, predict_message_mood
+from imports import unittest, SomeModel, predict_message_mood
 
 
 class TestFirstTask(unittest.TestCase):
