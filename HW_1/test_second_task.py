@@ -1,4 +1,7 @@
-from imports import unittest, patch, search_file_generator
+import unittest
+from unittest.mock import patch
+
+from second_task import search_file_generator
 
 
 class TestSecondTask(unittest.TestCase):
