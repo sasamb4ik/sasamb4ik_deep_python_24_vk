@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 
 from second_task import search_file_generator
 
@@ -7,9 +7,8 @@ from second_task import search_file_generator
 class TestSecondTask(unittest.TestCase):
 
     @patch(
-        'builtins.open', new_callable=unittest.mock.mock_open, read_data=
-        'This is a mocked line.\nGleb loves big data.\nAnother line with '
-        'data.\n'
+        'builtins.open', new_callable=unittest.mock.mock_open,
+        read_data='This is a mocked line.\nGleb loves big data.\nAnother line with data.\n'
     )
     def test_basics_and_read_file(self, mocked_open: patch):
         result = list(search_file_generator('fake_path', ['data'], ['gleb']))

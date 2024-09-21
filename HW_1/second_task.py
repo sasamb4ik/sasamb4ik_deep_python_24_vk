@@ -20,6 +20,7 @@ def search_file_generator(
             current_words = set(
                 remove_punctuation(line).strip().lower().split()
                 )
-            if current_words & stops: continue
+            if current_words & stops:
+                continue
             if any(word in current_words for word in searching):
                 yield line.strip()
