@@ -28,7 +28,7 @@ class TestProcessJson(unittest.TestCase):
             "я щас сижу и  домашку",
         )
 
-    @patch("first_task.json.loads")
+    @patch("json_task.json.loads")
     def test_process_json_with_matches(self, mocked_json_loads):
         mocked_json_loads.return_value = self.mocked_json
 
@@ -47,7 +47,7 @@ class TestProcessJson(unittest.TestCase):
         self.mocked_callback.assert_any_call("hello)", "tests")
         self.assertEqual(self.mocked_callback.call_count, 2)
 
-    @patch("first_task.json.loads")
+    @patch("json_task.json.loads")
     def test_process_json_no_matches(self, mocked_json_loads):
         mocked_json_loads.return_value = self.mocked_json
 
