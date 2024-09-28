@@ -9,11 +9,13 @@ class TestProcessJson(unittest.TestCase):
         self.mocked_json = {
             "gleb!": "This is a test!",
             "hello)": "More tests, here!",
+            "воскрEсEнье!!!": "маткульт - приВет!",
         }
         self.mocked_json_string = (
-            '{"gleb!": "This is a test!", "hello)": "More tests, here!"}'
+            '{"gleb!": "This is a test!", "hello)": "More tests, here!", '
+            '"воскресенье!!!": "маткульт - приВет!"}'
         )
-        self.required_keys = ["gleb", "hello"]
+        self.required_keys = ["gleb", "hello", "воскресенье"]
         self.mocked_callback = Mock()
 
     def test_remove_punctuation(self):
@@ -29,10 +31,10 @@ class TestProcessJson(unittest.TestCase):
         )
 
     @patch("json_task.json.loads")
-    def test_process_json_with_matches(self, mocked_json_loads):
+    def test_process_json_with_matches_tokens(self, mocked_json_loads):
         mocked_json_loads.return_value = self.mocked_json
 
-        tokens = ["this", "tests"]
+        tokens = ["this", "teSTs", "приВет"]
 
         process_json(
             self.mocked_json_string,
@@ -44,7 +46,7 @@ class TestProcessJson(unittest.TestCase):
         mocked_json_loads.assert_called_once_with(self.mocked_json_string)
 
         self.mocked_callback.assert_any_call("gleb!", "this")
-        self.mocked_callback.assert_any_call("hello)", "tests")
+        self.mocked_callback.assert_any_call("hello)", "teSTs")
         self.assertEqual(self.mocked_callback.call_count, 2)
 
     @patch("json_task.json.loads")
