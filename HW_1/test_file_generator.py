@@ -10,8 +10,8 @@ class TestSecondTask(unittest.TestCase):
         "builtins.open",
         new_callable=unittest.mock.mock_open,
         read_data="This is a mocked line.\n"
-        "Gleb loves big data.\n"
-        "Another line with data.\n",
+                  "Gleb loves big data.\n"
+                  "Another line with data.\n",
     )
     def test_basics_and_read_file(self, mocked_open: patch):
         result = list(search_file_generator("fake_path", ["data"], ["gleb"]))
@@ -19,27 +19,32 @@ class TestSecondTask(unittest.TestCase):
         mocked_open.assert_called_once_with("fake_path", "r", encoding="utf-8")
 
     def test_empty_file(self):
-        with patch("builtins.open", new_callable=unittest.mock.mock_open, read_data=""):
+        with patch(
+                "builtins.open", new_callable=unittest.mock.mock_open,
+                read_data=""
+        ):
             result = list(search_file_generator("fake_path", ["data"], []))
             self.assertEqual(result, [])
 
     def test_full_string_search_match(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="полностью подходящая строка\nhello world\ndata " "science\n",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="полностью подходящая строка\nhello world\ndata " "science\n",
         ):
             result = list(
-                search_file_generator("fake_path", ["полностью подходящая строка"], [])
+                search_file_generator(
+                    "fake_path", ["полностью подходящая строка"], []
+                )
             )
             self.assertEqual(result, ["полностью подходящая строка"])
 
     def test_full_string_stop_match(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="полностью анти подходящая строка\nhello world\ndata "
-            "science\n",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="полностью анти подходящая строка\nhello world\ndata "
+                          "science\n",
         ):
             result = list(
                 search_file_generator(
@@ -50,10 +55,10 @@ class TestSecondTask(unittest.TestCase):
 
     def test_multiple_search_words_in_one_line(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="Тут будет много подходящих search слов (точно "
-            "больше одного).\n лапа папу маму кораллы карл)",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="Тут будет много подходящих search слов (точно "
+                          "больше одного).\n лапа папу маму кораллы карл)",
         ):
             result = list(
                 search_file_generator(
@@ -62,14 +67,15 @@ class TestSecondTask(unittest.TestCase):
             )
             self.assertEqual(
                 result,
-                ["Тут будет много подходящих search слов (точно " "больше одного)."],
+                [
+                    "Тут будет много подходящих search слов (точно " "больше одного)."],
             )
 
     def test_multiple_stop_words_in_one_line(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="Rosa loves Azora and Tulip flowers.",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="Rosa loves Azora and Tulip flowers.",
         ):
             result = list(
                 search_file_generator("fake_path", ["rosa"], ["azora", "tulip"])
@@ -78,30 +84,30 @@ class TestSecondTask(unittest.TestCase):
 
     def test_no_matches(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="This line has no keywords.\nAnother irrelevant line.",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="This line has no keywords.\nAnother irrelevant line.",
         ):
             result = list(search_file_generator("fake_path", ["keyword"], []))
             self.assertEqual(result, [])
 
     def test_search_and_stop_empty(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="Тут есть какой-то текст.\n я исправляю первую "
-            "попытки сдачи домашки. поставьте пожалуйста 7 "
-            "баллов.",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="Тут есть какой-то текст.\n я исправляю первую "
+                          "попытки сдачи домашки. поставьте пожалуйста 7 "
+                          "баллов.",
         ):
             result = list(search_file_generator("fake_path", [], []))
             self.assertEqual(result, [])
 
     def test_exact_word_matching(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="Я хочу проверить полное вхождение слова.\nполно "
-            "тебе горевать!",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="Я хочу проверить полное вхождение слова.\nполно "
+                          "тебе горевать!",
         ):
             result = list(search_file_generator("fake_path", ["полно"], []))
             self.assertEqual(result, ["полно тебе горевать!"])
@@ -113,11 +119,11 @@ class TestSecondTask(unittest.TestCase):
 
     def test_special_characters_and_spaces(self):
         with patch(
-            "builtins.open",
-            new_callable=unittest.mock.mock_open,
-            read_data="    Line with spe!!cial     character     "
-            "%percent.\n"
-            "Line without     keyword.\n",
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="    Line with spe!!cial     character     "
+                          "%percent.\n"
+                          "Line without     keyword.\n",
         ):
             result = list(search_file_generator("fake_path", ["percent"], []))
             self.assertEqual(

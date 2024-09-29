@@ -27,7 +27,9 @@ def _process_words(file_or_filename, stops, searching):
             yield line.strip()
 
 
-def search_file_generator(file_or_name, search_words: list[str], stop_words: list[str]):
+def search_file_generator(
+        file_or_name, search_words: list[str], stop_words: list[str]
+        ):
     stops = set(word.lower() for word in stop_words)
     searching = set(word.lower() for word in search_words)
 
