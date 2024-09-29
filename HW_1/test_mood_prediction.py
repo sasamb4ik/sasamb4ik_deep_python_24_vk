@@ -1,5 +1,6 @@
 import unittest
-from first_task import SomeModel, predict_message_mood
+from unittest.mock import patch, Mock
+from mood_prediction import SomeModel, predict_message_mood
 
 
 class TestFirstTask(unittest.TestCase):
@@ -28,10 +29,7 @@ class TestFirstTask(unittest.TestCase):
     def test_predict(self):
         self._assert_raises_message("", self.empty_str_msg)
         self._assert_raises_message("Hello123", self.invalid_format_msg)
-        self._assert_raises_message(
-            "Hello,mynameisgleb",
-            self.invalid_format_msg
-        )
+        self._assert_raises_message("Hello,mynameisgleb", self.invalid_format_msg)
         self._assert_raises_message("    ", self.invalid_format_msg)
         self.assertAlmostEqual(self.model.predict("aeiou"), 1.0)
         self.assertAlmostEqual(self.model.predict("HeLLo"), 0.4)
@@ -39,10 +37,45 @@ class TestFirstTask(unittest.TestCase):
         self.assertAlmostEqual(self.model.predict("gle"), 0.333)
         self.assertAlmostEqual(self.model.predict("mimmughffrf"), 0.182)
 
-    def test_predict_message_mood(self):
+    @patch.object(SomeModel, "predict")
+    def test_predict_message_mood(self, mock_predict):
+        mock_predict.side_effect = [1.0, 0.4, 0.0, 0.333, 0.182, 0.9]
+
         self.assertEqual(predict_message_mood("aeiou"), "отл")
         self.assertEqual(predict_message_mood("HeLLo"), "норм")
         self.assertEqual(predict_message_mood("rhytm"), "неуд")
         self.assertEqual(predict_message_mood("gle"), "норм")
         self.assertEqual(predict_message_mood("mimmughffrf"), "неуд")
         self.assertEqual(predict_message_mood("aaaiffoooooeeeffeuuuuu"), "отл")
+
+        self.assertEqual(mock_predict.call_count, 6)
+
+    @patch.object(SomeModel, "predict")
+    def test_predict_message_mood_thresholds(self, mock_predict):
+        mock_predict.side_effect = [
+            0.182,
+            0.182,
+            0.182,
+            0.0,
+            0.0,
+            0.4,
+            0.333,
+            0.333,
+            0.333,
+            0.33299,
+            0.33299,
+        ]
+
+        self.assertEqual(predict_message_mood("mimmughffrf", 0.181, 0.183), "норм")
+        self.assertEqual(predict_message_mood("mimmughffrf", 0.182, 0.183), "норм")
+        self.assertEqual(predict_message_mood("mimmughffrf", 0.18201, 0.183), "неуд")
+        self.assertEqual(predict_message_mood("rhytm", 0), "норм")
+        self.assertEqual(predict_message_mood("rhytm", 0.05, 0.1), "неуд")
+        self.assertEqual(predict_message_mood("HeLLo", 0.2, 0.3), "отл")
+        self.assertEqual(predict_message_mood("gle", 0.32, 0.332), "отл")
+        self.assertEqual(predict_message_mood("gle", 0.32, 0.333), "норм")
+        self.assertEqual(predict_message_mood("gle", 0.333, 0.333), "норм")
+        self.assertEqual(predict_message_mood("gle", 0.332, 0.329999), "отл")
+        self.assertEqual(predict_message_mood("gle", 0.33299, 0.333001), "норм")
+
+        self.assertEqual(mock_predict.call_count, 11)
