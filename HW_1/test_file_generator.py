@@ -72,7 +72,8 @@ class TestSecondTask(unittest.TestCase):
             self.assertEqual(
                 result,
                 [
-                    "Тут будет много подходящих search слов (точно больше одного)."],
+                    "Тут будет много подходящих search слов"
+                    "(точно больше одного)."],
             )
 
     def test_multiple_stop_words_in_one_line(self):
