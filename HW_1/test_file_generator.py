@@ -72,7 +72,7 @@ class TestSecondTask(unittest.TestCase):
             self.assertEqual(
                 result,
                 [
-                    "Тут будет много подходящих search слов"
+                    "Тут будет много подходящих search слов "
                     "(точно больше одного)."],
             )
 
