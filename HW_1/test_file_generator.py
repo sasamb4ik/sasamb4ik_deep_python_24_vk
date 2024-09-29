@@ -30,7 +30,8 @@ class TestSecondTask(unittest.TestCase):
         with patch(
                 "builtins.open",
                 new_callable=unittest.mock.mock_open,
-                read_data="полностью подходящая строка\nhello world\ndata " "science\n",
+                read_data="полностью подходящая строка"
+                          "\nhello world\ndata " "science\n",
         ):
             result = list(
                 search_file_generator(
@@ -43,12 +44,14 @@ class TestSecondTask(unittest.TestCase):
         with patch(
                 "builtins.open",
                 new_callable=unittest.mock.mock_open,
-                read_data="полностью анти подходящая строка\nhello world\ndata "
+                read_data="полностью анти подходящая строка"
+                          "\nhello world\ndata "
                           "science\n",
         ):
             result = list(
                 search_file_generator(
-                    "fake_path", ["анти"], ["полностью анти подходящая строка"]
+                    "fake_path", ["анти"],
+                    ["полностью анти подходящая строка"]
                 )
             )
             self.assertEqual(result, [])
@@ -62,13 +65,14 @@ class TestSecondTask(unittest.TestCase):
         ):
             result = list(
                 search_file_generator(
-                    "fake_path", ["слов", "search", "больше"], ["кораллы"]
+                    "fake_path", ["слов", "search", "больше"],
+                    ["кораллы"]
                 )
             )
             self.assertEqual(
                 result,
                 [
-                    "Тут будет много подходящих search слов (точно " "больше одного)."],
+                    "Тут будет много подходящих search слов (точно больше одного)."],
             )
 
     def test_multiple_stop_words_in_one_line(self):
@@ -78,7 +82,8 @@ class TestSecondTask(unittest.TestCase):
                 read_data="Rosa loves Azora and Tulip flowers.",
         ):
             result = list(
-                search_file_generator("fake_path", ["rosa"], ["azora", "tulip"])
+                search_file_generator("fake_path", ["rosa"],
+                                      ["azora", "tulip"])
             )
             self.assertEqual(result, [])
 
@@ -86,9 +91,11 @@ class TestSecondTask(unittest.TestCase):
         with patch(
                 "builtins.open",
                 new_callable=unittest.mock.mock_open,
-                read_data="This line has no keywords.\nAnother irrelevant line.",
+                read_data="This line has no keywords."
+                          "\nAnother irrelevant line.",
         ):
-            result = list(search_file_generator("fake_path", ["keyword"], []))
+            result = list(search_file_generator("fake_path",
+                                                ["keyword"], []))
             self.assertEqual(result, [])
 
     def test_search_and_stop_empty(self):
@@ -99,7 +106,8 @@ class TestSecondTask(unittest.TestCase):
                           "попытки сдачи домашки. поставьте пожалуйста 7 "
                           "баллов.",
         ):
-            result = list(search_file_generator("fake_path", [], []))
+            result = list(search_file_generator("fake_path",
+                                                [], []))
             self.assertEqual(result, [])
 
     def test_exact_word_matching(self):
@@ -109,7 +117,8 @@ class TestSecondTask(unittest.TestCase):
                 read_data="Я хочу проверить полное вхождение слова.\nполно "
                           "тебе горевать!",
         ):
-            result = list(search_file_generator("fake_path", ["полно"], []))
+            result = list(search_file_generator("fake_path",
+                                                ["полно"], []))
             self.assertEqual(result, ["полно тебе горевать!"])
 
     def test_file_like_object_and_capital_letters(self):
@@ -125,7 +134,8 @@ class TestSecondTask(unittest.TestCase):
                           "%percent.\n"
                           "Line without     keyword.\n",
         ):
-            result = list(search_file_generator("fake_path", ["percent"], []))
+            result = list(search_file_generator("fake_path",
+                                                ["percent"], []))
             self.assertEqual(
                 result, ["Line with spe!!cial     character     %percent."]
             )
