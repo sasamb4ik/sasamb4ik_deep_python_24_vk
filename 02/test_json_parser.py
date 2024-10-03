@@ -10,8 +10,8 @@ class TestProcessJson(unittest.TestCase):
         self.assertEqual(remove_punctuation("выаываы!!яыаэээ?"),
                          "выаываыяыаэээ")
         self.assertEqual(
-            remove_punctuation("С этой строкой ничего не " "произойдёт"),
-            "С этой строкой ничего не " "произойдёт",
+            remove_punctuation("С этой строкой ничего не произойдёт"),
+            "С этой строкой ничего не произойдёт",
         )
         self.assertEqual(remove_punctuation("п"), "п")
         self.assertEqual(remove_punctuation("@"), "")
@@ -190,6 +190,6 @@ class TestProcessJson(unittest.TestCase):
 
         mock_callback.assert_any_call(
             "я устал от долгих легенд в тестах.",
-            "Геннадий, если вы это " "читаете - хорошего вам настроения!!!",
+            "Геннадий, если вы это читаете - хорошего вам настроения!!!",
         )
         self.assertEqual(mock_callback.call_count, 1)
