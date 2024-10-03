@@ -7,7 +7,8 @@ class TestProcessJson(unittest.TestCase):
 
     def test_remove_punctuation(self):
         self.assertEqual(remove_punctuation("Hello, World!"), "Hello World")
-        self.assertEqual(remove_punctuation("выаываы!!яыаэээ?"), "выаываыяыаэээ")
+        self.assertEqual(remove_punctuation("выаываы!!яыаэээ?"),
+                         "выаываыяыаэээ")
         self.assertEqual(
             remove_punctuation("С этой строкой ничего не " "произойдёт"),
             "С этой строкой ничего не " "произойдёт",
@@ -40,7 +41,8 @@ class TestProcessJson(unittest.TestCase):
 
     def test_process_json_no_tokens(self):
         json_str = (
-            '{"Тут есть ключ": "Тут предложение", "Другой ключик": ' '"клавиатура"}'
+            '{"Тут есть ключ": "Тут предложение",'
+            '"Другой ключик": ' '"клавиатура"}'
         )
         required_keys = ["ключ", "ключик"]
         tokens = ["Отсутствие"]

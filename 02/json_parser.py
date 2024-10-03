@@ -24,7 +24,8 @@ def process_json(
     json_dict = json.loads(json_str)
 
     # Удаляем пунктуацию из ключей для сравнения
-    set_req_filtered_keys = set(remove_punctuation(item) for item in required_keys)
+    set_req_filtered_keys = set(remove_punctuation(item)
+                                for item in required_keys)
 
     for json_key, json_value in json_dict.items():
         valid_key = remove_punctuation(json_key)
