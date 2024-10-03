@@ -2,9 +2,11 @@ import json
 from typing import Callable
 import string
 
+
 def remove_punctuation(given_string: str) -> str:
     table = str.maketrans(dict.fromkeys(string.punctuation))
     return given_string.translate(table)
+
 
 def process_json(
     json_str: str,
