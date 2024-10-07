@@ -3,6 +3,8 @@ disable=
     C0114, # missing-module-docstring
     C0115,
     C0116,
+    E0712,
+    W0718
 
 [FORMAT]
 max-line-length=80
