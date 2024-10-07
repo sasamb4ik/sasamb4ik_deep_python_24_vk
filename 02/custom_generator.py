@@ -3,19 +3,19 @@ from functools import wraps
 
 def retry_deco(retries, exceptions=None):
     if retries < 1:
-        raise ValueError
+        raise ValueError("Retries must be at least 1.")
 
     if exceptions is None:
         exceptions = ()
     elif isinstance(exceptions, type) and issubclass(exceptions, Exception):
         exceptions = (exceptions,)
-    elif not isinstance(exceptions, (list, tuple, set, frozenset)):
-        raise TypeError
+    elif not isinstance(exceptions, (list, tuple)):
+        raise TypeError("Exceptions must be a type or a collection of types.")
     else:
         exceptions = tuple(exceptions)
         for exc in exceptions:
             if not isinstance(exc, type) or not issubclass(exc, Exception):
-                raise TypeError
+                raise TypeError("All exceptions must be subclasses of Exception.")
 
     def decorator(function):
         @wraps(function)
@@ -45,7 +45,8 @@ def retry_deco(retries, exceptions=None):
                         function.__name__, arguments, attempt,
                         'exception', f'{type(error).__name__}: {error}'
                     )
-                    raise
+                    if attempt == retries:
+                        raise
                 except Exception as error:
                     log_attempt(
                         function.__name__, arguments, attempt,
@@ -53,7 +54,10 @@ def retry_deco(retries, exceptions=None):
                     )
                     if attempt == retries:
                         raise
-                    attempt += 1
+
+                attempt += 1
+
+            return None
 
         return wrapper
 

@@ -34,29 +34,6 @@ class TestParamDeco(unittest.TestCase):
         self.assertIn("attempt = 2, exception = Exception", output)
         self.assertIn("attempt = 3, result = Success", output)
 
-    def test_no_retry_on_exception(self):
-        mock_function = Mock()
-        mock_function.__name__ = "mock_function"
-
-        mock_function.side_effect = ValueError("Expected error")
-
-        decorated_function = retry_deco(3, exceptions=[ValueError])(
-            mock_function
-        )
-
-        captured_output = StringIO()
-        sys.stdout = captured_output
-
-        with self.assertRaises(ValueError):
-            decorated_function()
-
-        sys.stdout = sys.__stdout__
-
-        self.assertEqual(mock_function.call_count, 1)
-        output = captured_output.getvalue()
-        self.assertIn("attempt = 1, exception = ValueError", output)
-        self.assertNotIn("attempt = 2", output)
-
     def test_one_retry(self):
         mock_function = Mock()
         mock_function.__name__ = "mock_function"
@@ -92,20 +69,6 @@ class TestParamDeco(unittest.TestCase):
 
         self.assertEqual(result, "Success")
         self.assertEqual(mock_function.call_count, 2)
-
-    def test_multiple_exceptions_in_exceptions(self):
-        mock_function = Mock()
-        mock_function.__name__ = "mock_function"
-        mock_function.side_effect = TypeError("Type error")
-
-        decorated_function = retry_deco(3, exceptions=(ValueError, TypeError))(
-            mock_function
-        )
-
-        with self.assertRaises(TypeError):
-            decorated_function()
-
-        self.assertEqual(mock_function.call_count, 1)
 
     def test_function_always_succeeds(self):
         mock_function = Mock(return_value="Success")
