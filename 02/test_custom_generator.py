@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import Mock
+import sys
 from io import StringIO
 from custom_generator import retry_deco
-import sys
 
 
 class TestParamDeco(unittest.TestCase):
