@@ -64,7 +64,7 @@ class TestParamDeco(unittest.TestCase):
 
         decorated_function = retry_deco(1)(mock_function)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(Exception) as _:
             decorated_function()
 
         self.assertEqual(mock_function.call_count, 1)
@@ -124,7 +124,7 @@ class TestParamDeco(unittest.TestCase):
 
         decorated_function = retry_deco(3)(mock_function)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(Exception) as _:
             decorated_function()
 
         self.assertEqual(mock_function.call_count, 3)
