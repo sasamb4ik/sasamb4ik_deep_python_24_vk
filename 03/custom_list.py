@@ -12,7 +12,7 @@ class CustomList(list):
                 raise TypeError(
                     "CustomList можно создавать только из целых "
                     "чисел и списков целых чисел."
-                    )
+                )
 
     def __neg__(self):
         return CustomList([-item for item in self])
@@ -22,8 +22,8 @@ class CustomList(list):
             max_len = max(len(self), len(other))
             result = CustomList(
                 [
-                    (self[i] if i < len(self) else 0) +
-                    (other[i] if i < len(other) else 0)
+                    (self[i] if i < len(self) else 0)
+                    + (other[i] if i < len(other) else 0)
                     for i in range(max_len)
                 ]
             )
@@ -33,7 +33,7 @@ class CustomList(list):
         return NotImplemented(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
-            )
+        )
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -47,7 +47,7 @@ class CustomList(list):
         return NotImplemented(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
-            )
+        )
 
     def __rsub__(self, other):
         if isinstance(other, (CustomList, list, int)):
@@ -55,14 +55,14 @@ class CustomList(list):
         return NotImplemented(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
-            )
+        )
 
     def __eq__(self, other):
         if isinstance(other, CustomList):
             return sum(self) == sum(other)
         raise TypeError(
             "Сравнение можно производить только с объектами класса CustomList."
-            )
+        )
 
     def __ne__(self, other):
         return not self == other
@@ -72,7 +72,7 @@ class CustomList(list):
             return sum(self) < sum(other)
         raise TypeError(
             "Сравнение можно производить только с объектами класса CustomList."
-            )
+        )
 
     def __ge__(self, other):
         return not self < other
@@ -84,7 +84,8 @@ class CustomList(list):
         return not self > other
 
     def __str__(self):
-        elements_str = ', '.join(map(str, self))
+        elements_str = ", ".join(map(str, self))
         total_sum = sum(self)
-        return (f"Элементы CustomList: ({elements_str})\n"
-                f"Сумма элементов: {total_sum}")
+        return (
+            f"Элементы CustomList: ({elements_str})\n" f"Сумма элементов: {total_sum}"
+        )
