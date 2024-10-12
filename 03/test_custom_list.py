@@ -82,7 +82,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
         with self.assertRaises(TypeError) as context:
@@ -90,7 +90,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
     def test_inequality(self):
@@ -107,7 +107,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
         with self.assertRaises(TypeError) as context:
@@ -115,7 +115,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
     def test_less_and_great(self):
@@ -136,7 +136,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
         with self.assertRaises(TypeError) as context:
@@ -144,7 +144,7 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(
             str(context.exception),
             "Сравнение можно производить"
-            "только с объектами класса CustomList.",
+            " только с объектами класса CustomList.",
         )
 
     def test_arithmetic_operations_and_unchanged(self):
