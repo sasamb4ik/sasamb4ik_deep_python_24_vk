@@ -50,19 +50,19 @@ class TestCustomList(unittest.TestCase):
             )
 
     def test_neg(self):
-        self.assertEqual(CustomList(1, 2, 3).__neg__(),
+        self.assertEqual(-CustomList(1, 2, 3),
                          CustomList(-1, -2, -3))
 
-        self.assertEqual(CustomList([1, 2, 3]).__neg__(),
+        self.assertEqual(-CustomList([1, 2, 3]),
                          CustomList(-1, -2, -3))
 
         self.assertEqual(
-            CustomList(1, 2, -3, -4, 0).__neg__(),
+            -CustomList(1, 2, -3, -4, 0),
             CustomList(-1, -2, 3, 4, 0)
         )
 
         self.assertEqual(
-            CustomList([-1, -2, -3, -4, 0]).__neg__(),
+            -CustomList([-1, -2, -3, -4, 0]),
             CustomList(1, 2, 3, 4, 0)
         )
 

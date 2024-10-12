@@ -28,9 +28,9 @@ class CustomList(list):
                 ]
             )
             return result
-        elif isinstance(other, int):
+        if isinstance(other, int):
             return CustomList([x + other for x in self])
-        return NotImplemented(
+        raise TypeError(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
         )
@@ -41,10 +41,10 @@ class CustomList(list):
     def __sub__(self, other):
         if isinstance(other, int):
             return self.__add__(-other)
-        elif isinstance(other, (CustomList, list)):
+        if isinstance(other, (CustomList, list)):
             neg_other = CustomList([-item for item in other])
             return self.__add__(neg_other)
-        return NotImplemented(
+        raise TypeError(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
         )
@@ -52,7 +52,7 @@ class CustomList(list):
     def __rsub__(self, other):
         if isinstance(other, (CustomList, list, int)):
             return -self.__sub__(other)
-        return NotImplemented(
+        raise TypeError(
             "CustomList поддерживает арифметические "
             "операции только с объектами класса, списками и целыми числами."
         )
