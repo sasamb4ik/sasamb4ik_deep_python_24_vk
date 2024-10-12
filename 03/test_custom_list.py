@@ -14,7 +14,7 @@ class TestCustomList(unittest.TestCase):
         self.cl4 = CustomList()
         self.cl5 = CustomList([-item for item in range(10)])
         self.cl6 = CustomList(
-            [(lambda x: x * -1 if x % 2 == 0 else x)(x) for x in range(10)]
+            [-x if x % 2 == 0 else x for x in range(10)]
         )
 
     def test_inheritance(self):
