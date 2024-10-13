@@ -21,7 +21,7 @@ class TestSecondTask(unittest.TestCase):
                 search_file_generator(
                     "fake_path",
                     ["подходящая"],
-                      []
+                    []
                 )
             )
 
