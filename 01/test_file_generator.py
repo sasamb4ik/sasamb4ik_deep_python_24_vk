@@ -29,7 +29,7 @@ class TestSecondTask(unittest.TestCase):
                 search_file_generator(
                     "fake_path",
                     ["подходящая"],
-                      ["астанавитес, стопэ"]
+                    ["астанавитес, стопэ"]
                 )
             )
 
@@ -60,7 +60,7 @@ class TestSecondTask(unittest.TestCase):
                 search_file_generator(
                     "fake_path",
                     ["жираф, шимпанзе, подходящая"],
-                      ["неподходящая плохая"]
+                    ["неподходящая плохая"]
                 )
             )
 
