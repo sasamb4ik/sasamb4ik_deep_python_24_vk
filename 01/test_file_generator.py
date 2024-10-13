@@ -6,6 +6,84 @@ from file_generator import search_file_generator
 
 class TestSecondTask(unittest.TestCase):
 
+    def test_search_one_word(self):
+        '''
+        Правка вашего замечания:
+        "тест совпадения строки поиска/стоп с целой строкой в файле,
+        то есть когда вся строка состоит из одного слова"
+        '''
+        with patch(
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="подходящая"
+        ):
+            result_first = list(
+                search_file_generator(
+                    "fake_path",
+                    ["подходящая"],
+                      []
+                )
+            )
+
+            result_second = list(
+                search_file_generator(
+                    "fake_path",
+                    ["подходящая"],
+                      ["астанавитес, стопэ"]
+                )
+            )
+
+            result_third = list(
+                search_file_generator(
+                    "fake_path",
+                    ["подходящая"],
+                    ["подходящая"]
+                )
+            )
+
+            self.assertEqual(result_first, ["подходящая"])
+            self.assertEqual(result_second, ["подходящая"])
+            self.assertEqual(result_third, [])
+
+    def test_stop_one_word(self):
+        '''
+        Правка вашего замечания:
+        "тест совпадения строки поиска/стоп с целой строкой в файле,
+        то есть когда вся строка состоит из одного слова"
+        '''
+        with patch(
+                "builtins.open",
+                new_callable=unittest.mock.mock_open,
+                read_data="неподходящая"
+        ):
+            result_first = list(
+                search_file_generator(
+                    "fake_path",
+                    ["жираф, шимпанзе, подходящая"],
+                      ["неподходящая плохая"]
+                )
+            )
+
+            result_second = list(
+                search_file_generator(
+                    "fake_path",
+                    [],
+                    ["неподходящая"]
+                )
+            )
+
+            result_third = list(
+                search_file_generator(
+                    "fake_path",
+                    ["неподходящая"],
+                    ["неподходящая"]
+                )
+            )
+
+            self.assertEqual(result_first, [])
+            self.assertEqual(result_second, [])
+            self.assertEqual(result_third, [])
+
     @patch(
         "builtins.open",
         new_callable=unittest.mock.mock_open,

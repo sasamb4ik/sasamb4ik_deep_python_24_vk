@@ -26,17 +26,64 @@ class TestFirstTask(unittest.TestCase):
             self.model.predict(message)
         self.assertEqual(str(context.exception), expected_message)
 
-    def test_predict(self):
-        self._assert_raises_message("", self.empty_str_msg)
-        self._assert_raises_message("Hello123", self.invalid_format_msg)
-        self._assert_raises_message("Hello,mynameisgleb",
-                                    self.invalid_format_msg)
-        self._assert_raises_message("    ", self.invalid_format_msg)
+    @patch.object(SomeModel, "predict")
+    def test_predict(self, mock_predict):
+        '''
+        Правка вашего последнего замечания:
+        "тесты предиктора должны проверять строку,
+        которая была фактически передана в predict"
+
+        Исправление: я добавил assert_called_with
+        и проверку на итоговое количество вызовов.
+        '''
+        mock_predict.side_effect = [
+            1.0,  # "aeiou"
+            0.4,  # "HeLLo"
+            0.0,  # "rhythm"
+            0.333,  # "gle"
+            0.182,  # "mimmughffrf"
+            ValueError(self.empty_str_msg),  # ""
+            ValueError(self.invalid_format_msg),  # "Hello123"
+            ValueError(self.invalid_format_msg),  # "Hello,mynameisgleb"
+            ValueError(self.invalid_format_msg),  # "    "
+        ]
+
         self.assertAlmostEqual(self.model.predict("aeiou"), 1.0)
+        mock_predict.assert_called_with("aeiou")
+
         self.assertAlmostEqual(self.model.predict("HeLLo"), 0.4)
+        mock_predict.assert_called_with("HeLLo")
+
         self.assertAlmostEqual(self.model.predict("rhythm"), 0.0)
+        mock_predict.assert_called_with("rhythm")
+
         self.assertAlmostEqual(self.model.predict("gle"), 0.333)
+        mock_predict.assert_called_with("gle")
+
         self.assertAlmostEqual(self.model.predict("mimmughffrf"), 0.182)
+        mock_predict.assert_called_with("mimmughffrf")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.predict("")
+        self.assertEqual(str(context.exception), self.empty_str_msg)
+        mock_predict.assert_called_with("")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.predict("Hello123")
+        self.assertEqual(str(context.exception), self.invalid_format_msg)
+        mock_predict.assert_called_with("Hello123")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.predict("Hello,mynameisgleb")
+        self.assertEqual(str(context.exception), self.invalid_format_msg)
+        mock_predict.assert_called_with("Hello,mynameisgleb")
+
+        with self.assertRaises(ValueError) as context:
+            self.model.predict("    ")
+        self.assertEqual(str(context.exception), self.invalid_format_msg)
+        mock_predict.assert_called_with("    ")
+
+        self.assertEqual(mock_predict.call_count, 9)
 
     @patch.object(SomeModel, "predict")
     def test_predict_message_mood(self, mock_predict):
