@@ -26,9 +26,8 @@ def process_json(
     терминироваться
     '''
 
-    if required_keys or tokens or callback is None:
-        raise ValueError('required_keys, tokens или callback равны None. '
-                         'Проверьте ввод!')
+    if required_keys is None or tokens is None or callback is None:
+        return
 
     json_dict = json.loads(json_str)
 

@@ -5,35 +5,24 @@ from json_parser import process_json, remove_punctuation
 
 class TestProcessJson(unittest.TestCase):
 
-    def test_keys_tokens_callback_none(self):
-        json_str = (
-            '{"Воскресенье": "Привет", "работа": "машинлернер", '
-            '"город": "Москва"}'
-        )
+    def test_process_json_none_parameters(self):
+        json_str = '{"key1": "value1", "key2": "value2"}'
 
         required_keys = None
-        tokens = ["Привет", "машинлернер"]
+        tokens = ["value1"]
         mock_callback = Mock()
 
         process_json(json_str, required_keys, tokens, mock_callback)
 
         mock_callback.assert_not_called()
 
-        required_keys = ["Воскресенье"]
+        required_keys = ["key1"]
         tokens = None
+        mock_callback = Mock()
 
         process_json(json_str, required_keys, tokens, mock_callback)
 
         mock_callback.assert_not_called()
-
-        required_keys = ["Воскресенье"]
-        tokens = ["Привет"]
-        mock_callback = None
-
-        with self.assertRaises(
-                TypeError
-                ):
-            process_json(json_str, required_keys, tokens, mock_callback)
 
     def test_remove_punctuation(self):
         self.assertEqual(remove_punctuation("Hello, World!"), "Hello World")
