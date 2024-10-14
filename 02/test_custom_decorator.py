@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 import sys
 from io import StringIO
-from custom_generator import retry_deco
+from custom_decorator import retry_deco
 
 
 class TestParamDeco(unittest.TestCase):

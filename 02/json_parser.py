@@ -21,6 +21,17 @@ def process_json(
     пунктуации ключа и токена.
     """
 
+    '''
+    Замечание: нужно обрабатывать случаи, когда required_keys или tokens
+    или callback равны None
+    Правки: по решению автора (меня), функция при таких случаяз просто будет 
+    терминироваться
+    '''
+
+    if required_keys or tokens or callback is None:
+        raise ValueError('required_keys, tokens или callback равны None. '
+                         'Проверьте ввод!')
+
     json_dict = json.loads(json_str)
 
     # Удаляем пунктуацию из ключей для сравнения
