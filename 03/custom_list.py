@@ -1,18 +1,18 @@
 class CustomList(list):
-
     def __init__(self, *args):
+        """
+        Исправления: вы сказали, что проверка на то что элементы строго явл-ся
+        целыми числами не обязательна, поэтому я решил упростить и разрешить
+        создавать CustomList с любыми элементами, а не только с целыми числами,
+        как пробовал раньше
+        """
         super().__init__()
 
         for arg in args:
-            if isinstance(arg, list):
+            if hasattr(arg, "__iter__") and not isinstance(arg, (str, bytes)):
                 self.extend(arg)
-            elif isinstance(arg, int):
-                self.append(arg)
             else:
-                raise TypeError(
-                    "CustomList можно создавать только из целых "
-                    "чисел и списков целых чисел."
-                )
+                self.append(arg)
 
     def __neg__(self):
         return CustomList([-item for item in self])
@@ -87,6 +87,5 @@ class CustomList(list):
         elements_str = ", ".join(map(str, self))
         total_sum = sum(self)
         return (
-            f"Элементы CustomList: ({elements_str})\n"
-            f"Сумма элементов: {total_sum}"
+            f"Элементы CustomList: ({elements_str})\n" f"Сумма элементов: {total_sum}"
         )
