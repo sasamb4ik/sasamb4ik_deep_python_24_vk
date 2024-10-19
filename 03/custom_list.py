@@ -87,5 +87,6 @@ class CustomList(list):
         elements_str = ", ".join(map(str, self))
         total_sum = sum(self)
         return (
-            f"Элементы CustomList: ({elements_str})\n" f"Сумма элементов: {total_sum}"
+            f"Элементы CustomList: ({elements_str})\n"
+            f"Сумма элементов: {total_sum}"
         )
