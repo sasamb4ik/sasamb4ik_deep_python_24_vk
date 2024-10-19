@@ -134,7 +134,7 @@ class TestCustomList(unittest.TestCase):
             "Сравнение можно производить только с объектами класса CustomList.",
         )
 
-    def assertCustomListEqual(self, list1, list2):
+    def assert_custom_list_equal(self, list1, list2):
         """
         Функция поэлементно проверяет равенство двух CustomList
         """
@@ -154,62 +154,62 @@ class TestCustomList(unittest.TestCase):
         cl2 = CustomList(3, 2, 1)
         cl5 = CustomList([-item for item in range(10)])
 
-        self.assertCustomListEqual(cl1 + cl2, CustomList(4, 4, 4))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal(cl1 + cl2, CustomList(4, 4, 4))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual(cl1 - cl2, CustomList(-2, 0, 2))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal(cl1 - cl2, CustomList(-2, 0, 2))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual(cl1 + [100, 200], CustomList(101, 202, 3))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(cl1 + [100, 200], CustomList(101, 202, 3))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
-        self.assertCustomListEqual(cl1 - [100], CustomList(-99, 2, 3))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(cl1 - [100], CustomList(-99, 2, 3))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
-        self.assertCustomListEqual([100, 200, 300] + cl2, CustomList(103, 202, 301))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal([100, 200, 300] + cl2, CustomList(103, 202, 301))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual([100, 200, 300] - cl2, CustomList(97, 198, 299))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal([100, 200, 300] - cl2, CustomList(97, 198, 299))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual([] + cl2, CustomList(3, 2, 1))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal([] + cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual([] - cl2, CustomList(-3, -2, -1))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal([] - cl2, CustomList(-3, -2, -1))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual(cl2 - [], CustomList(3, 2, 1))
-        self.assertCustomListEqual(cl2, CustomList(3, 2, 1))
+        self.assert_custom_list_equal(cl2 - [], CustomList(3, 2, 1))
+        self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assertCustomListEqual(CustomList() + CustomList(), CustomList())
+        self.assert_custom_list_equal(CustomList() + CustomList(), CustomList())
 
-        self.assertCustomListEqual(
+        self.assert_custom_list_equal(
             cl5 + 100, CustomList([100, 99, 98, 97, 96, 95, 94, 93, 92, 91])
         )
-        self.assertCustomListEqual(
+        self.assert_custom_list_equal(
             cl5, CustomList([0, -1, -2, -3, -4, -5, -6, -7, -8, -9])
         )
 
-        self.assertCustomListEqual(cl1 - 100, CustomList(-99, -98, -97))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(cl1 - 100, CustomList(-99, -98, -97))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
-        self.assertCustomListEqual(100 - cl1, CustomList(99, 98, 97))
-        self.assertCustomListEqual(cl1, CustomList(1, 2, 3))
+        self.assert_custom_list_equal(100 - cl1, CustomList(99, 98, 97))
+        self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
         # проверка когда сумма/разность совпадают, но поэлементно разные
         sum_equal_diff_elements_add = CustomList(5, 3, 4)
         sum_equal_diff_elements_sub = CustomList(-1, -1, 2)
 
-        self.assertCustomListEqual(cl1 + cl2, CustomList(4, 4, 4))
+        self.assert_custom_list_equal(cl1 + cl2, CustomList(4, 4, 4))
         self.assertNotEqual(
             list(cl1 + cl2),
             list(sum_equal_diff_elements_add),
             "Списки совпадают по сумме, но не по элементам",
         )
 
-        self.assertCustomListEqual(cl1 - cl2, CustomList(-2, 0, 2))
+        self.assert_custom_list_equal(cl1 - cl2, CustomList(-2, 0, 2))
         self.assertNotEqual(
             list(cl1 - cl2),
             list(sum_equal_diff_elements_sub),
