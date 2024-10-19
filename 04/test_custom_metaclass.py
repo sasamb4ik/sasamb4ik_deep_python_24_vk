@@ -1,7 +1,6 @@
 import unittest
 from custom_metaclass import CustomMeta
 
-
 class TestCustomMeta(unittest.TestCase):
 
     def setUp(self):
@@ -50,7 +49,9 @@ class TestCustomMeta(unittest.TestCase):
 
         self.assertEqual(self.instance.custom_dynamic, "added later")
         self.assertEqual(self.instance.custom_some_attribute, "some value")
-        self.assertEqual(self.instance.custom_new_method(self.instance), "new method")
+        self.assertEqual(
+            self.instance.custom_new_method(self.instance), "new method"
+        )
 
         with self.assertRaises(AttributeError):
             _ = self.instance.dynamic
