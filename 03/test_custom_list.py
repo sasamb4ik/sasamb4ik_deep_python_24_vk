@@ -48,8 +48,12 @@ class TestCustomList(unittest.TestCase):
     def test_neg(self):
         self.assertEqual(-CustomList(1, 2, 3), CustomList(-1, -2, -3))
         self.assertEqual(-CustomList([1, 2, 3]), CustomList(-1, -2, -3))
-        self.assertEqual(-CustomList(1, 2, -3, -4, 0), CustomList(-1, -2, 3, 4, 0))
-        self.assertEqual(-CustomList([-1, -2, -3, -4, 0]), CustomList(1, 2, 3, 4, 0))
+        self.assertEqual(
+            -CustomList(1, 2, -3, -4, 0), CustomList(-1, -2, 3, 4, 0)
+        )
+        self.assertEqual(
+            -CustomList([-1, -2, -3, -4, 0]), CustomList(1, 2, 3, 4, 0)
+        )
 
     def test_equality(self):
         cl1 = CustomList(1, 2, 3)
@@ -168,12 +172,14 @@ class TestCustomList(unittest.TestCase):
         self.assert_custom_list_equal(cl1 - [100], CustomList(-99, 2, 3))
         self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
-        self.assert_custom_list_equal([100, 200, 300] +
-                                      cl2, CustomList(103, 202, 301))
+        self.assert_custom_list_equal(
+            [100, 200, 300] + cl2, CustomList(103, 202, 301)
+        )
         self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assert_custom_list_equal([100, 200, 300] -
-                                      cl2, CustomList(97, 198, 299))
+        self.assert_custom_list_equal(
+            [100, 200, 300] - cl2, CustomList(97, 198, 299)
+        )
         self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
         self.assert_custom_list_equal([] + cl2, CustomList(3, 2, 1))
@@ -220,7 +226,9 @@ class TestCustomList(unittest.TestCase):
 
     def test_str_method(self):
         cl = CustomList([1, 2, 3, 4, 5])
-        expected_str = "Элементы CustomList: (1, 2, 3, 4, 5)\nСумма элементов: 15"
+        expected_str = (
+            "Элементы CustomList: (1, 2, 3, 4, 5)\nСумма элементов: 15"
+        )
         self.assertEqual(str(cl), expected_str)
 
         empty_cl = CustomList()
@@ -228,9 +236,13 @@ class TestCustomList(unittest.TestCase):
         self.assertEqual(str(empty_cl), expected_empty_str)
 
         cl_neg = CustomList([-1, -2, -3])
-        expected_neg_str = "Элементы CustomList: (-1, -2, -3)\nСумма элементов: -6"
+        expected_neg_str = (
+            "Элементы CustomList: (-1, -2, -3)\nСумма элементов: -6"
+        )
         self.assertEqual(str(cl_neg), expected_neg_str)
 
         cl_mixed = CustomList(-1, 0, 1)
-        expected_mixed_str = "Элементы CustomList: (-1, 0, 1)\nСумма элементов: 0"
+        expected_mixed_str = (
+            "Элементы CustomList: (-1, 0, 1)\nСумма элементов: 0"
+        )
         self.assertEqual(str(cl_mixed), expected_mixed_str)
