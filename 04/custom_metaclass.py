@@ -28,12 +28,11 @@ class CustomMeta(type):
                 return original_getattribute(self, title)
             if title.startswith("custom_"):
                 return original_getattribute(self, title)
-            else:
-                raise AttributeError(
-                    f"'{type(self).__name__}' не содержит "
-                    f"атрибута "
-                    f"'{title}'"
-                )
+            raise AttributeError(
+                f"'{type(self).__name__}' не содержит "
+                f"атрибута "
+                f"'{title}'"
+            )
 
         adjusted_custom_class.__setattr__ = __setattr__
         adjusted_custom_class.__getattribute__ = __getattribute__

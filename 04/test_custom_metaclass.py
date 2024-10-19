@@ -1,6 +1,7 @@
 import unittest
 from custom_metaclass import CustomMeta
 
+
 class TestCustomMeta(unittest.TestCase):
 
     def setUp(self):
