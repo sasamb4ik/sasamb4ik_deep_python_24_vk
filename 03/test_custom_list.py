@@ -168,10 +168,12 @@ class TestCustomList(unittest.TestCase):
         self.assert_custom_list_equal(cl1 - [100], CustomList(-99, 2, 3))
         self.assert_custom_list_equal(cl1, CustomList(1, 2, 3))
 
-        self.assert_custom_list_equal([100, 200, 300] + cl2, CustomList(103, 202, 301))
+        self.assert_custom_list_equal([100, 200, 300] +
+                                      cl2, CustomList(103, 202, 301))
         self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
-        self.assert_custom_list_equal([100, 200, 300] - cl2, CustomList(97, 198, 299))
+        self.assert_custom_list_equal([100, 200, 300] -
+                                      cl2, CustomList(97, 198, 299))
         self.assert_custom_list_equal(cl2, CustomList(3, 2, 1))
 
         self.assert_custom_list_equal([] + cl2, CustomList(3, 2, 1))
