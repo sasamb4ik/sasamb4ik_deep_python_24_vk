@@ -54,3 +54,7 @@ class Data:
         self.num = num
         self.name = name
         self.price = price
+
+
+a = bool(5 or 7 in (3, 6))
+print(a)
