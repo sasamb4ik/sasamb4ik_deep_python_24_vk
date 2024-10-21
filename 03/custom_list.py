@@ -6,7 +6,7 @@ class CustomList(list):
         создавать CustomList с любыми элементами, а не только с целыми числами,
         как пробовал раньше
         """
-        super().__init__()
+        super().__init__(args)
 
         for arg in args:
             if hasattr(arg, "__iter__") and not isinstance(arg, (str, bytes)):
