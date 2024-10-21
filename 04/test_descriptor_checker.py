@@ -94,7 +94,8 @@ class TestDescriptors(unittest.TestCase):
         current_value = self.data.price
         with self.assertRaises(
             ValueError,
-            msg="'price' не вызвал ValueError при присвоении отрицательного значения",
+            msg="'price' не вызвал ValueError при"
+                "присвоении отрицательного значения",
         ):
             self.data.price = -50
         self.assertEqual(
@@ -179,6 +180,7 @@ class TestDescriptors(unittest.TestCase):
             self.data.price = 0
         with self.assertRaises(
             ValueError,
-            msg="'price' не вызвал ValueError при присвоении отрицательного значения",
+            msg="'price' не вызвал ValueError при"
+                "присвоении отрицательного значения",
         ):
             self.data.price = -10
