@@ -1,18 +1,4 @@
 class CustomList(list):
-    def __init__(self, *args):
-        """
-        Исправления: вы сказали, что проверка на то что элементы строго явл-ся
-        целыми числами не обязательна, поэтому я решил упростить и разрешить
-        создавать CustomList с любыми элементами, а не только с целыми числами,
-        как пробовал раньше
-        """
-        super().__init__()
-
-        for arg in args:
-            if hasattr(arg, "__iter__") and not isinstance(arg, (str, bytes)):
-                self.extend(arg)
-            else:
-                self.append(arg)
 
     def __neg__(self):
         return CustomList([-item for item in self])
