@@ -69,7 +69,7 @@ class DoubleLList:
 class LRUCache:
 
     def __init__(self, capacity=42):
-        self.hash_map = dict()
+        self.hash_map = {}
         self.capacity = capacity
         self.double_ll = DoubleLList()
 
