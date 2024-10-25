@@ -1,7 +1,3 @@
-import itertools
-from collections import namedtuple
-
-
 class CustomList(list):
 
     def __neg__(self):
@@ -80,8 +76,3 @@ class CustomList(list):
             f"Элементы CustomList: ({elements_str})\n"
             f"Сумма элементов: {total_sum}"
         )
-
-a = [[1, 2, 3], [4, 5], [89, 10]]
-
-a.pop()
-print(a)
