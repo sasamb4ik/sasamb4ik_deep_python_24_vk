@@ -1,18 +1,8 @@
-class CustomList(list):
-    def __init__(self, *args):
-        """
-        Исправления: вы сказали, что проверка на то что элементы строго явл-ся
-        целыми числами не обязательна, поэтому я решил упростить и разрешить
-        создавать CustomList с любыми элементами, а не только с целыми числами,
-        как пробовал раньше
-        """
-        super().__init__(args)
+import itertools
+from collections import namedtuple
 
-        for arg in args:
-            if hasattr(arg, "__iter__") and not isinstance(arg, (str, bytes)):
-                self.extend(arg)
-            else:
-                self.append(arg)
+
+class CustomList(list):
 
     def __neg__(self):
         return CustomList([-item for item in self])
@@ -90,3 +80,8 @@ class CustomList(list):
             f"Элементы CustomList: ({elements_str})\n"
             f"Сумма элементов: {total_sum}"
         )
+
+a = [[1, 2, 3], [4, 5], [89, 10]]
+
+a.pop()
+print(a)
