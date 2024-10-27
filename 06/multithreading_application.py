@@ -1,9 +1,8 @@
 import socket
 import threading
-import requests
 from collections import Counter
 import re
-
+import requests
 
 class Worker(threading.Thread):
     def __init__(self, conn, addr, top_k, server):
@@ -33,14 +32,14 @@ class Worker(threading.Thread):
 
     def fetch_and_process(self, url):
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=10)
             text = response.text
             words = re.findall(r"\w+", text.lower())
             counts = Counter(words)
             top = counts.most_common(self.top_k)
             return dict(top)
         except requests.RequestException as e:
-            print(f"Ошибка при попыткп обработки адреса {url}: {e}")
+            print(f"Ошибка при попыткпр обработки адреса {url}: {e}")
             return {}
 
 
@@ -92,9 +91,8 @@ class ClientThread(threading.Thread):
 
 
 def read_urls(file_path):
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         return [line.strip() for line in file.readlines()]
-
 
 def run_client(num_threads, urls_file):
     urls = read_urls(urls_file)
