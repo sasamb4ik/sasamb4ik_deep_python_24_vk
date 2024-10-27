@@ -4,6 +4,7 @@ from collections import Counter
 import re
 import requests
 
+
 class Worker(threading.Thread):
     def __init__(self, conn, addr, top_k, server):
         super().__init__()
@@ -93,6 +94,7 @@ class ClientThread(threading.Thread):
 def read_urls(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         return [line.strip() for line in file.readlines()]
+
 
 def run_client(num_threads, urls_file):
     urls = read_urls(urls_file)
