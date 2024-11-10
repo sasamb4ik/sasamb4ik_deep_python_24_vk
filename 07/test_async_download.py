@@ -20,7 +20,8 @@ class TestFetcher(unittest.IsolatedAsyncioTestCase):
             with patch('builtins.print') as mock_print:
                 await fetch(session, url, semaphore)
                 mock_print.assert_called_with(
-                    f"Захватили URL: {url} - длина составляет {len(mock_response)} символов"
+                    f"Захватили URL: {url} - длина "
+                    f"составляет {len(mock_response)} символов"
                 )
 
     @aioresponses()
@@ -56,10 +57,12 @@ class TestFetcher(unittest.IsolatedAsyncioTestCase):
             expected_calls = [
                 mock.call(f"Начали обработку {len(urls)} URL-адресов 2"),
                 mock.call(
-                    f"Захватили URL: {urls[0]} - длина составляет {len(mock_responses[urls[0]])} символов"
+                    f"Захватили URL: {urls[0]} - длина "
+                    f"составляет {len(mock_responses[urls[0]])} символов"
                     ),
                 mock.call(
-                    f"Захватили URL: {urls[1]} - длина составляет {len(mock_responses[urls[1]])} символов"
+                    f"Захватили URL: {urls[1]} - длина "
+                    f"составляет {len(mock_responses[urls[1]])} символов"
                     ),
             ]
 
