@@ -1,7 +1,7 @@
 import asyncio
-import aiohttp
 import argparse
 import os
+import aiohttp
 
 
 async def fetch(session, url, semaphore):
@@ -23,7 +23,7 @@ async def main(concurrency, file_path='urls.txt'):
         print(f"Файл {file_path} не найден.")
         return
 
-    with open(file_path, 'r', encoding = "utf-8") as f:
+    with open(file_path, 'r', encoding="utf-8") as f:
         urls = [line.strip() for line in f if line.strip()]
 
     print(
