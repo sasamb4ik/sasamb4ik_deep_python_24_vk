@@ -43,8 +43,9 @@ def measure_time():
     slot_objects = [SlotClass(f"Актер {i}", i)
                     for i in range(num_instances)]
     end_time = time.time()
-    print(f"Время создания класса со слотами: {end_time - start_time:.5f} " 
-          f"секунд")
+    print(
+        f"Время создания класса со слотами: {end_time - start_time:.5f} секунд"
+        )
 
     start_time = time.time()
     weakref_objects = [WeakRefClass(f"Актер {i}", i)
