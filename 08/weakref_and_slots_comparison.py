@@ -33,17 +33,22 @@ def measure_time():
     print()
 
     start_time = time.time()
-    regular_objects = [RegularClass(f"Актер {i}", i) for i in range(num_instances)]
+    regular_objects = [RegularClass(f"Актер {i}", i)
+                       for i in range(num_instances)]
     end_time = time.time()
-    print(f"Время создания обычного класса: {end_time - start_time:.5f} " f"секунд")
+    print(f"Время создания обычного "
+          f"класса: {end_time - start_time:.5f} " f"секунд")
 
     start_time = time.time()
-    slot_objects = [SlotClass(f"Актер {i}", i) for i in range(num_instances)]
+    slot_objects = [SlotClass(f"Актер {i}", i)
+                    for i in range(num_instances)]
     end_time = time.time()
-    print(f"Время создания класса со слотами: {end_time - start_time:.5f} " f"секунд")
+    print(f"Время создания класса со слотами: {end_time - start_time:.5f} " 
+          f"секунд")
 
     start_time = time.time()
-    weakref_objects = [WeakRefClass(f"Актер {i}", i) for i in range(num_instances)]
+    weakref_objects = [WeakRefClass(f"Актер {i}", i)
+                       for i in range(num_instances)]
     end_time = time.time()
     print(
         f"Время создания класса со слабыми ссылками:"
@@ -60,7 +65,8 @@ def measure_time():
         obj.age += 1
     end_time = time.time()
     print(
-        f"Время изменения для обычного класса: {end_time - start_time:.5f} " f"секунд"
+        f"Время изменения для обычного "
+        f"класса: {end_time - start_time:.5f} " f"секунд"
     )
 
     start_time = time.time()
@@ -69,7 +75,8 @@ def measure_time():
         obj.age += 1
     end_time = time.time()
     print(
-        f"Время изменения для класса со слотами: {end_time - start_time:.5f} " f"секунд"
+        f"Время изменения для класса со "
+        f"слотами: {end_time - start_time:.5f} " f"секунд"
     )
 
     start_time = time.time()

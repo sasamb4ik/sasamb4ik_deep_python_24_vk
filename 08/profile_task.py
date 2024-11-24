@@ -17,7 +17,7 @@ profiler.disable()
 
 profiler.dump_stats("profiling_results.prof")
 
-with open("profiling_results.txt", "w") as f:
+with open("profiling_results.txt", "w", encoding='utf-8') as f:
     ps = pstats.Stats(profiler, stream=f)
     ps.sort_stats("cumulative")
     ps.print_stats()

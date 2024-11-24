@@ -1,13 +1,10 @@
 import unittest
-
 from lru_cache import ListNode, DoubleLList, LRUCache
-
 
 class TestDoubleLList(unittest.TestCase):
 
     def setUp(self):
         self.dll = DoubleLList()
-
 
     def test_initial_length(self):
         self.assertEqual(self.dll.length, 0)
