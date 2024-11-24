@@ -2,6 +2,7 @@ import cProfile
 import pstats
 from functools import wraps
 
+
 def profile_deco(func):
     profiler = cProfile.Profile()
 
@@ -20,13 +21,16 @@ def profile_deco(func):
     wrapper.print_stat = print_stat
     return wrapper
 
+
 @profile_deco
 def add(a, b):
     return a + b
 
+
 @profile_deco
 def sub(a, b):
     return a - b
+
 
 add(1, 2)
 add(4, 5)
