@@ -8,6 +8,7 @@ class TestDoubleLList(unittest.TestCase):
     def setUp(self):
         self.dll = DoubleLList()
 
+
     def test_initial_length(self):
         self.assertEqual(self.dll.length, 0)
 
@@ -102,6 +103,38 @@ class TestLRUCache(unittest.TestCase):
         self.cache.set(1, "uno")
         self.assertEqual(self.cache.get(1), "uno")
         self.assertEqual(self.cache.double_ll.length, 1)
+
+        # обновление тестов, первая попытка правок
+        self.cache.set(1, "one")
+        self.cache.set(2, "two")
+        self.cache.set(3, "three")
+
+        self.cache.set(2, "updated_two")
+        self.assertEqual(self.cache.get(2), "updated_two")
+
+        self.cache.set(4, "four")
+
+        self.assertIsNone(self.cache.get(1))
+        self.assertEqual(self.cache.get(2), "updated_two")
+        self.assertEqual(self.cache.get(3), "three")
+        self.assertEqual(self.cache.get(4), "four")
+
+    def test_set_and_get_lru_order(self):
+        '''
+        Первые правки: тест проверяет порядок элементов после операций с LRU
+        '''
+        self.cache.set(1, "one")
+        self.cache.set(2, "two")
+        self.cache.set(3, "three")
+
+        self.assertEqual(self.cache.get(1), "one")
+
+        self.cache.set(4, "four")
+
+        self.assertIsNone(self.cache.get(2))
+        self.assertEqual(self.cache.get(1), "one")
+        self.assertEqual(self.cache.get(3), "three")
+        self.assertEqual(self.cache.get(4), "four")
 
     def test_capacity_exceeded(self):
         self.cache.set(1, "one")
