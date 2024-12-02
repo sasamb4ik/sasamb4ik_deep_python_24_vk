@@ -2,8 +2,8 @@ import socket
 import threading
 from collections import Counter
 import re
-import requests
 import argparse
+import requests
 
 
 class Worker(threading.Thread):

@@ -1,24 +1,21 @@
+import os
+import tempfile
+import threading
 import unittest
 from unittest.mock import patch, MagicMock
-import threading
+
 import client
 import server
-import tempfile
-import os
 
 
 class TestClientServer(unittest.TestCase):
     def setUp(self):
-        self.temp_file = tempfile.NamedTemporaryFile(
-            delete=False, mode="w", encoding="utf-8"
-        )
-        self.temp_file.writelines(
-            ["http://example.com\n", "http://test.com\n"]
-        )
-        self.temp_file.close()
+        with tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8") as temp_file:
+            self.temp_file_name = temp_file.name
+            temp_file.writelines(["http://example.com\n", "http://test.com\n"])
 
     def tearDown(self):
-        os.unlink(self.temp_file.name)
+        os.unlink(self.temp_file_name)
 
     @patch("requests.get")
     def test_worker_fetch_and_process(self, mock_get):
@@ -29,6 +26,8 @@ class TestClientServer(unittest.TestCase):
         worker = server.Worker(None, None, 2, None, None)
         result = worker.fetch_and_process("http://example.com")
         self.assertEqual(result, {"hello": 2, "world": 1})
+
+        mock_get.assert_called_once_with("http://example.com", timeout=10)
 
     @patch("socket.socket")
     def test_client_thread(self, mock_socket):
@@ -72,16 +71,14 @@ class TestClientServer(unittest.TestCase):
 
     def test_read_urls_in_chunks(self):
         chunk_size = 1
-        chunks = list(
-            client.read_urls_in_chunks(self.temp_file.name, chunk_size)
-        )
+        chunks = list(client.read_urls_in_chunks(self.temp_file_name, chunk_size))
         self.assertEqual(len(chunks), 2)
         self.assertEqual(chunks[0], ["http://example.com"])
         self.assertEqual(chunks[1], ["http://test.com"])
 
     def test_semaphore_limit(self):
         semaphore = threading.Semaphore(2)
-        results = list()
+        results = []
 
         def task(idx):
             with semaphore:
