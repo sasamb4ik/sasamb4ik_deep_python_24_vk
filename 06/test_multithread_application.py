@@ -10,7 +10,9 @@ import server
 
 class TestClientServer(unittest.TestCase):
     def setUp(self):
-        with tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8") as temp_file:
+        with tempfile.NamedTemporaryFile(
+            delete=False, mode="w", encoding="utf-8"
+        ) as temp_file:
             self.temp_file_name = temp_file.name
             temp_file.writelines(["http://example.com\n", "http://test.com\n"])
 
@@ -71,7 +73,9 @@ class TestClientServer(unittest.TestCase):
 
     def test_read_urls_in_chunks(self):
         chunk_size = 1
-        chunks = list(client.read_urls_in_chunks(self.temp_file_name, chunk_size))
+        chunks = list(
+            client.read_urls_in_chunks(self.temp_file_name, chunk_size)
+        )
         self.assertEqual(len(chunks), 2)
         self.assertEqual(chunks[0], ["http://example.com"])
         self.assertEqual(chunks[1], ["http://test.com"])
