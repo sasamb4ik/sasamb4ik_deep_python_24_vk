@@ -1,59 +1,100 @@
 import unittest
-from unittest.mock import patch, MagicMock, mock_open
-from multithreading_application import (
-    read_urls,
-    run_client,
-    ClientThread,
-    Worker,
-)
-import requests
+from unittest.mock import patch, MagicMock
+import threading
+import client
+import server
+import tempfile
+import os
 
 
-class TestMultithreadingApplication(unittest.TestCase):
+class TestClientServer(unittest.TestCase):
+    def setUp(self):
+        self.temp_file = tempfile.NamedTemporaryFile(
+            delete=False, mode="w", encoding="utf-8"
+        )
+        self.temp_file.writelines(
+            ["http://example.com\n", "http://test.com\n"]
+        )
+        self.temp_file.close()
 
-    def test_read_urls(self):
-        mock_file_content = "http://example.com\nhttp://example.org\n"
-        expected_output = ["http://example.com", "http://example.org"]
+    def tearDown(self):
+        os.unlink(self.temp_file.name)
 
-        with patch("builtins.open", mock_open(read_data=mock_file_content)):
-            result = read_urls("urls.txt")
-            self.assertEqual(result, expected_output)
+    @patch("requests.get")
+    def test_worker_fetch_and_process(self, mock_get):
+        mock_response = MagicMock()
+        mock_response.text = "hello world hello"
+        mock_get.return_value = mock_response
 
-    def test_read_urls_empty_file(self):
-        expected_output = []
-
-        with patch("builtins.open", mock_open(read_data="")):
-            result = read_urls("urls.txt")
-            self.assertEqual(result, expected_output)
-
-    @patch("multithreading_application.ClientThread.run")
-    def test_run_client(self, mock_run):
-        urls_list = ["http://example.com", "http://example.org"]
-        with patch(
-            "multithreading_application.read_urls", return_value=urls_list
-        ):
-            run_client(2, "urls.txt")
-
-        self.assertEqual(mock_run.call_count, 2)
+        worker = server.Worker(None, None, 2, None, None)
+        result = worker.fetch_and_process("http://example.com")
+        self.assertEqual(result, {"hello": 2, "world": 1})
 
     @patch("socket.socket")
     def test_client_thread(self, mock_socket):
-        mock_instance = mock_socket.return_value.__enter__.return_value
-        urls_list = ["http://example.com", "http://example.org"]
+        mock_conn = MagicMock()
+        mock_socket.return_value = mock_conn
+        mock_conn.recv.return_value = b"http://example.com: {'hello': 2}"
 
-        client_thread = ClientThread(urls_list, "localhost", 65432)
-        client_thread.start()
-        client_thread.join()
+        urls = ["http://example.com"]
+        thread = client.ClientThread(urls, "localhost", 65432)
+        thread.run()
 
-        self.assertEqual(mock_instance.connect.call_count, len(urls_list))
-        self.assertEqual(mock_instance.sendall.call_count, len(urls_list))
+        mock_conn.connect.assert_called_with(("localhost", 65432))
 
-    @patch("requests.get", side_effect=requests.exceptions.ConnectionError)
-    def test_worker_fetch_and_process_connection_error(self, mock_get):
-        conn = MagicMock()
-        server = MagicMock()
+        mock_conn.sendall.assert_called_with(urls[0].encode("utf-8"))
 
-        worker = Worker(conn, "localhost", 2, server)
-        top_words = worker.fetch_and_process("http://example.com")
+        mock_conn.recv.assert_called()
 
-        self.assertEqual(top_words, {})
+    @patch("socket.socket")
+    def test_server_worker(self, mock_socket):
+        mock_conn = MagicMock()
+        mock_conn.recv.side_effect = [b"http://example.com", b""]
+        mock_socket.return_value = mock_conn
+
+        server_instance = server.Master("localhost", 65432, 2, 2)
+        server_instance.lock = threading.Lock()
+        worker = server.Worker(
+            mock_conn,
+            ("127.0.0.1", 12345),
+            2,
+            server_instance,
+            threading.Semaphore(2),
+        )
+
+        with patch.object(
+            worker, "fetch_and_process", return_value={"hello": 2}
+        ):
+            worker.run()
+            mock_conn.send.assert_called_with(
+                b"http://example.com: {'hello': 2}"
+            )
+
+    def test_read_urls_in_chunks(self):
+        chunk_size = 1
+        chunks = list(
+            client.read_urls_in_chunks(self.temp_file.name, chunk_size)
+        )
+        self.assertEqual(len(chunks), 2)
+        self.assertEqual(chunks[0], ["http://example.com"])
+        self.assertEqual(chunks[1], ["http://test.com"])
+
+    def test_semaphore_limit(self):
+        semaphore = threading.Semaphore(2)
+        results = list()
+
+        def task(idx):
+            with semaphore:
+                results.append(idx)
+
+        threads = [threading.Thread(target=task, args=(i,)) for i in range(5)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
+        self.assertEqual(len(results), 5)
+
+
+if __name__ == "__main__":
+    unittest.main()

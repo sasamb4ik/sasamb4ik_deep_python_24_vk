@@ -29,7 +29,7 @@ def setup_logging(log_to_stdout, apply_filter):
 
 logger = logging.getLogger()
 
-######################### копипаст LRU из 5 дз #############################
+# копипаст LRU из 5 дз
 
 
 class ListNode:
@@ -68,7 +68,7 @@ class DoubleLList:
         pass
 
 
-######################### конец копипаста #############################
+# конец копипаста
 
 
 class LRUCache:
